@@ -1,6 +1,7 @@
-#include <iostream>
+#include "Controller/Controller.cpp"
 
-int main () {
-    std::cout << "Hello World!!!";
+int main() {
+    Controller controller;
+    controller.run();
     return 0;
 }
