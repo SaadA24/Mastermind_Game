@@ -9,4 +9,3 @@ public:
     
     virtual std::string humanVsHuman(std::vector<std::string> colorsList, std::vector<std::string> orig, int length) = 0;
 };
-

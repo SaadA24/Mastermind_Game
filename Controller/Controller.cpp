@@ -208,12 +208,3 @@ void theMenu() {
         }
         return code;
     }
-
-int main() {
-    srand(time(0));
-    Controller controller;
-    controller.run();
-    return 0;
-}
-
-
