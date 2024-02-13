@@ -1,51 +1,47 @@
 #include "Helpers/InputHelper.cpp"
 #include "Helpers/TextColours.cpp"
-#include "model/GameImpl.cpp"
+#include "model/GameLogic.cpp"
 #include <iostream>
 #include <cstdlib>
 #include <vector>
 #include <string>
 #include <ctime>
 
-
 class Controller {
 private:
-    GameImplementation gameLogic;
+    GameLogic gameLogic;
     InputHelper inputHelper;
 
     std::vector<std::string> character;
-    std::vector<std::string> colorListOrginal;
+    std::vector<std::string> codeMakersColorSequence;
     std::vector<std::string> resultsList;
-    int numberOfPlayerGuesses;
+    int numberOfGuessesAllowed;
     int counter;
 
 public:
     Controller() {
         resultsList = std::vector<std::string>();
-        inputHelper = InputHelper();
-        colorListOrginal = std::vector<std::string>();
-        colorListOrginal.push_back("Red");
-        colorListOrginal.push_back("Green");
-        colorListOrginal.push_back("Yellow");
-        colorListOrginal.push_back("Blue");
-        colorListOrginal.push_back("Purple");
-        colorListOrginal.push_back("Maroon");
-        colorListOrginal.push_back("Navy");
-        colorListOrginal.push_back("White");
+        //inputHelper = InputHelper();
+        codeMakersColorSequence = std::vector<std::string>();
+        codeMakersColorSequence.push_back("Red");
+        codeMakersColorSequence.push_back("Green");
+        codeMakersColorSequence.push_back("Yellow");
+        codeMakersColorSequence.push_back("Blue");
+        codeMakersColorSequence.push_back("Purple");
+        codeMakersColorSequence.push_back("Maroon");
+        codeMakersColorSequence.push_back("Navy");
+        codeMakersColorSequence.push_back("White");
         character = std::vector<std::string>{"r", "g", "b", "y", "p", "m", "n", "w"};
-        gameImpl = GameImpl(numberOfPlayerGuesses);
+        //gameLogic = gameLogic(numberOfGuessesAllowed);
 
     }
-
-void displayGameMenu() {
-    std::cout << "Please select an option from the main menu below:\n"
-                 "1: one human codemaker and one human codebreaker\n" 
-                 "2: one computer-based codemaker and one human codebreaker\n" 
-                 "3: one computer-based codemaker and one computer-based codebreaker.\n"
-                 "0: For Exit Program\n"  << std::endl;
-}
-
-
+    void displayGameMenu() {
+        std::cout << "Please select an option from the main menu below:\n"
+                    "1: one human codemaker and one human codebreaker\n" 
+                    "2: one computer-based codemaker and one human codebreaker\n" 
+                    "3: one computer-based codemaker and one computer-based codebreaker.\n"
+                    "0: For Exit Program\n"  << std::endl;
+    }
     void runGame() {
         bool gameOver = false;
         int menuChoiceSelected = 0;
@@ -55,25 +51,25 @@ void displayGameMenu() {
             switch (menuChoiceSelected) {
                 case 1:
                     humanVsHuman();
-                    showScore(gameImpl.getScoreList()[counter]);
+                    showScore(gameLogic.getScoreList()[counter]);
                     counter++;
                     std::cout << std::endl;
                     break;
                 case 2:
                     computerVsHuman();
-                    showScore(gameImpl.getScoreList()[counter]);
+                    showScore(gameLogic.getScoreList()[counter]);
                     counter++;
                     std::cout << std::endl;
                     break;
                 case 3:
                     computerVsComputer();
-                    showScore(gameImpl.getScoreList()[counter]);
+                    showScore(gameLogic.getScoreList()[counter]);
                     counter++;
                     std::cout << std::endl;
                     break;
                 case 0:
-                    std::cout << std::endl << std::endl << std::endl << std::endl << std::endl << std::endl << std::endl << std::endl;
                     std::exit(0);
+                    std::cout << std::endl;
                     break;
                 default:
                     std::cout << TextColours::TEXT_RED;
@@ -82,77 +78,84 @@ void displayGameMenu() {
             }
         } while (!gameOver);
     }
+
+
     void computerVsHuman() {
         std::vector<std::string> code = getRandomCodes();
-        std::string st = gameImpl.computerVsHuman(character, getColorList(code), colorListOrginal, code.size());
+        std::string st = gameLogic.ComputerVsHuman(character, getGuessUsingFirstLetterOfColour(code), codeMakersColorSequence, code.size());
         resultsList.push_back("Codemaker sets the code: " + st);
         std::cout << "Codemaker sets the code: " << st << std::endl;
     }
+
+
+
     void computerVsComputer() {
         std::vector<std::string> randomCodes = getRandomCodes();
-        std::string st = gameImpl.computerVsComputer(character, getColorList(randomCodes), colorListOrginal, randomCodes.size());
+        std::string st = gameLogic.computerVsComputer(character, getGuessUsingFirstLetterOfColour(randomCodes), codeMakersColorSequence, randomCodes.size());
         resultsList.push_back("Codemaker sets the code: " + st);
         std::cout << "Codemaker sets the code: " << st << std::endl;
     }
     void humanVsHuman() {
         std::vector<std::string> code = humanDefineCodes();
-        std::string st = gameImpl.humanVsHuman(getColorList(code), colorListOrginal, code.size());
+        std::string st = gameLogic.humanVsHuman(getGuessUsingFirstLetterOfColour(code), codeMakersColorSequence, code.size());
         resultsList.push_back("Codemaker sets the code: " + st);
         std::cout << "Codemaker sets the code: " << st << std::endl;
     }
-    std::vector<std::string> getColorList(std::vector<std::string> code) {
-        std::vector<std::string> colorsList;
-        for (int i = 0; i < code.size(); i++) {
-            switch (code[i][0]) {
+
+
+    std::vector<std::string> getGuessUsingFirstLetterOfColour(std::vector<std::string> playerGuess) {
+        std::vector<std::string> codeBreakersColorGuesses;
+        for (int i = 0; i < playerGuess.size(); i++) {
+            switch (playerGuess[i][0]) {
                 case 'r':
-                    colorsList.push_back("Red");
+                    codeBreakersColorGuesses.push_back("Red");
                     break;
                 case 'g':
-                    colorsList.push_back("Green");
+                    codeBreakersColorGuesses.push_back("Green");
                     break;
                 case 'b':
-                    colorsList.push_back("Blue");
+                    codeBreakersColorGuesses.push_back("Blue");
                     break;
                 case 'y':
-                    colorsList.push_back("Yellow");
+                    codeBreakersColorGuesses.push_back("Yellow");
                     break;
                 case 'p':
-                    colorsList.push_back("Purple");
+                    codeBreakersColorGuesses.push_back("Purple");
                     break;
                 case 'm':
-                    colorsList.push_back("Maroon");
+                    codeBreakersColorGuesses.push_back("Maroon");
                     break;
                 case 'n':
-                    colorsList.push_back("Navy");
+                    codeBreakersColorGuesses.push_back("Navy");
                     break;
                 case 'w':
-                    colorsList.push_back("White");
+                    codeBreakersColorGuesses.push_back("White");
                     break;
                 default:
-                    colorsList.push_back("Nan");
+                    codeBreakersColorGuesses.push_back("Nan");
                     break;
             }
         }
-        return colorsList;
+        return codeBreakersColorGuesses;
     }
 
     void showScore(int score) {
-        std::cout << "\nCodemaker score = " << score << " (" << numberOfPlayerGuesses << " guesses)" << std::endl;
+        std::cout << "\nCodemaker score = " << score << " (" << numberOfGuessesAllowed << " guesses)" << std::endl;
     }
     void showResult(std::vector<int> scoreList) {
         std::cout << std::endl;
         for (int i = 0; i < scoreList.size(); i++) {
-            std::cout << "Games: " << (i + 1) << "  Codemaker score = " << scoreList[i] << " (" << numberOfPlayerGuesses << " guesses)" << std::endl;
+            std::cout << "Games: " << (i + 1) << "  Codemaker score = " << scoreList[i] << " (" << numberOfGuessesAllowed << " guesses)" << std::endl;
         }
     }
-    int getnumberOfPlayerGuesses() {
-        return numberOfPlayerGuesses;
+    int getnumberOfGuessesAllowed() {
+        return numberOfGuessesAllowed;
     }
     std::vector<std::string> getResultsList() {
         return resultsList;
     }
-    GameImpl getGameImpl() {
-        return gameImpl;
+    gameLogic getgameLogic() {
+        return gameLogic;
     }
 };
 

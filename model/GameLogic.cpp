@@ -4,32 +4,32 @@
 #include <vector>
 #include <random>
 
-class GameImplementation : public Game {
+class GameLogic : public Game {
 private:
     InputHelper inputHelper;
-    int numberofGuess;
+    int numberOfGuessesAllowed;
     int score = 0;
     std::vector<int> scoreList;
 
 public:
-    GameImpl(int numberofGuess) {
-        this->numberofGuess = numberofGuess;
+    GameLogic(int numberOfGuessesAllowed) {
+        this -> numberOfGuessesAllowed = numberOfGuessesAllowed;
         scoreList = std::vector<int>();
     }
 
-    std::string computerVsHuman(std::vector<std::string>& character, std::vector<std::string>& colorsList, std::vector<std::string>& orig, int length) override {
+    std::string ComputerVsHuman(std::vector<std::string>& character, std::vector<std::string>& codeMakersStartSequence, std::vector<std::string>& orig, int length) override {
         score = 0;
         std::cout << "Codemaker sets the code: ";
 
         std::string result = "";
-        for (int i = 0; i < colorsList.size(); i++) {
+        for (int i = 0; i < codeMakersStartSequence.size(); i++) {
             result += "X ";
             std::cout << "X ";
         }
         result += "\n";
         std::cout << std::endl;
 
-        for (int i = 0; i < numberofGuess; i++) {
+        for (int i = 0; i < numberOfGuessesAllowed; i++) {
             result += "\nGues " + std::to_string(i + 1) + ": ";
             std::vector<std::string> Gues;
 
@@ -56,13 +56,13 @@ public:
                 }
             }
 
-            if (i == numberofGuess - 1) {
+            if (i == numberOfGuessesAllowed - 1) {
                 score += 2;
             } else {
                 score++;
             }
 
-            result += "\nResponse: " + playGuess(colorsList, Gues, length);
+            result += "\nResponse: " + playGuess(codeMakersStartSequence, Gues, length);
             std::cout << "\nCodemaker score = " << score << " (" << (i + 1) << " guesses)";
             result += "\nCodemaker score = " + std::to_string(score) + " (" + std::to_string(i + 1) + " guesses)";
         }
@@ -72,17 +72,20 @@ public:
         return result;
     }
 
-    std::string humanVsHuman(std::vector<std::string>& colorsList, std::vector<std::string>& orig, int length) override {
-        std::cout << "Codemaker sets the code: ";
+    std::string humanVsHuman(std::vector<std::string> &codeMakersStartSequence, std::vector<std::string> &orig, int length) override
+    {
+        std::cout << "Player 1: Codemaker! Please set the code: ";
         score = 0;
         std::string result = "";
-        for (int i = 0; i < colorsList.size(); i++) {
-            result += colorsList[i] + " ";
-            std::cout << colorsList[i] + " ";
+        for (int i = 0; i < codeMakersStartSequence.size(); i++)
+        {
+            result += codeMakersStartSequence[i] + " ";
+            std::cout << codeMakersStartSequence[i] + " ";
         }
         result += "\n";
         std::cout << std::endl;
-        for (int i = 0; i < numberofGuess; i++) {
+        for (int i = 0; i < numberOfGuessesAllowed; i++)
+        {
             result += "\nGues " + std::to_string(i + 1) + ": ";
             std::vector<std::string> Gues;
 
@@ -109,13 +112,13 @@ public:
                 }
             }
 
-            if (i == numberofGuess - 1) {
+            if (i == numberOfGuessesAllowed - 1) {
                 score += 2;
             } else {
                 score++;
             }
 
-            result += "\nResponse: " + playGuess(colorsList, Gues, length);
+            result += "\nResponse: " + playGuess(codeMakersStartSequence, Gues, length);
             std::cout << "\nCodemaker score = " << score << " (" << (i + 1) << " guesses)";
             result += "\nCodemaker score = " + std::to_string(score) + " (" + std::to_string(i + 1) + " guesses)";
         }
@@ -125,16 +128,16 @@ public:
         return result;
     }
 
-    std::string computerVsComputer(std::vector<std::string>& character, std::vector<std::string>& colorsList, std::vector<std::string>& tempList, int length) override {
+    std::string computerVsComputer(std::vector<std::string>& character, std::vector<std::string>& codeMakersStartSequence, std::vector<std::string>& tempList, int length) override {
         score = 0;
 
         std::string result = "";
 
-        for (int i = 0; i < colorsList.size(); i++) {
-            result += colorsList[i] + " ";
+        for (int i = 0; i < codeMakersStartSequence.size(); i++) {
+            result += codeMakersStartSequence[i] + " ";
         }
         std::cout << std::endl;
-        for (int i = 0; i < numberofGuess; i++) {
+        for (int i = 0; i < numberOfGuessesAllowed; i++) {
             result += "\nGues " + std::to_string(i + 1) + ": ";
             std::vector<std::string> Gues(length);
 
@@ -149,13 +152,13 @@ public:
                 }
             }
 
-            if (i == numberofGuess - 1) {
+            if (i == numberOfGuessesAllowed - 1) {
                 score += 2;
             } else {
                 score++;
             }
 
-            result += "\nResponse: " + playGuess(colorsList, Gues, length);
+            result += "\nResponse: " + playGuess(codeMakersStartSequence, Gues, length);
             std::cout << "\nCodemaker score = " << score << " (" << (i + 1) << " guesses)";
             result += "\nCodemaker score = " + std::to_string(score) + " (" + std::to_string(i + 1) + " guesses)";
         }
@@ -179,7 +182,7 @@ private:
         return "";
     }
 
-    std::string playGuess(std::vector<std::string>& colorsList, std::vector<std::string>& Gues, int length) {
+    std::string playGuess(std::vector<std::string>& codeMakersStartSequence, std::vector<std::string>& Gues, int length) {
         std::string guessString = "";
 
         if (Gues.size() <= length) {
@@ -188,13 +191,13 @@ private:
 
         for (int j = 0; j < Gues.size(); j++) {
             if (j < length) {
-                if (std::tolower(Gues[j][0]) == std::tolower(colorsList[j][0])) {
+                if (std::tolower(Gues[j][0]) == std::tolower(codeMakersStartSequence[j][0])) {
                     guessString += "Black ";
-                } else if (!getColor(colorsList, std::tolower(Gues[j][0])).empty()) {
+                } else if (!getColor(codeMakersStartSequence, std::tolower(Gues[j][0])).empty()) {
                     guessString += "White ";
                 }
             } else {
-                if (!getColor(colorsList, std::tolower(Gues[j][0])).empty()) {
+                if (!getColor(codeMakersStartSequence, std::tolower(Gues[j][0])).empty()) {
                     guessString += "White ";
                 }
             }
