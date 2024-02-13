@@ -41,6 +41,7 @@ public:
                     "2: one computer-based codemaker and one human codebreaker\n" 
                     "0: For Exit Program\n"  << std::endl;
     }
+    
     void runGame() {
         bool gameOver = false;
         int menuChoiceSelected = 0;
@@ -77,7 +78,7 @@ public:
     void PlayerVsComputer()
     {
         std::vector<std::string> computersCodeSequence = getComputersStartingSequence();
-        std::string st = gameLogic.ComputerVsHuman(character, getGuessUsingFirstLetterOfColour(computersCodeSequence), codeMakersColorSequence, computersCodeSequence.size());
+        std::string st = gameLogic.ComputerVsHuman(getGuessUsingFirstLetterOfColour(computersCodeSequence), codeMakersColorSequence, computersCodeSequence.size());
         resultsList.push_back("Codemaker sets the code: " + st);
         std::cout << "Codemaker sets the code: " << st << std::endl;
     }
@@ -91,13 +92,13 @@ public:
 
     std::vector<std::string> getComputersStartingSequence()
     {
-        std::vector<std::string> code;
-        int codeLength = rand() % 6 + 3;
-        for (int i = 0; i < codeLength; i++)
+        std::vector<std::string> computerStartingSequence;
+        int sequenceLength = rand() % 6 + 3;
+        for (int i = 0; i < sequenceLength; i++)
         {
-            code.push_back(character[rand() % 8]);
+            computerStartingSequence.push_back(character[rand() % 8]);
         }
-        return code;
+        return computerStartingSequence;
     }
 
     std::vector<std::string> getGuessUsingFirstLetterOfColour(std::vector<std::string> playerGuess) {
@@ -136,26 +137,6 @@ public:
         return codeBreakersColorGuesses;
     }
 
-    void showScore(int score) {
-        std::cout << "\nCodemaker score = " << score << " (" << numberOfGuessesAllowed << " guesses)" << std::endl;
-    }
-    void showResult(std::vector<int> scoreList) {
-        std::cout << std::endl;
-        for (int i = 0; i < scoreList.size(); i++) {
-            std::cout << "Games: " << (i + 1) << "  Codemaker score = " << scoreList[i] << " (" << numberOfGuessesAllowed << " guesses)" << std::endl;
-        }
-    }
-    int getnumberOfGuessesAllowed() {
-        return numberOfGuessesAllowed;
-    }
-    std::vector<std::string> getResultsList() {
-        return resultsList;
-    }
-    GameLogic getgameLogic() {
-        return gameLogic;
-    }
-};
-
     std::vector<std::string> humanDefineCodes() {
         std::vector<std::string> code;
         do {
@@ -177,3 +158,25 @@ public:
         return code;
     }
 
+
+    void showScore(int score) {
+        std::cout << "\nCodemaker score = " << score << " (" << numberOfGuessesAllowed << " guesses)" << std::endl;
+    }
+    void showResult(std::vector<int> scoreList) {
+        std::cout << std::endl;
+        for (int i = 0; i < scoreList.size(); i++) {
+            std::cout << "Games: " << (i + 1) << "  Codemaker score = " << scoreList[i] << " (" << numberOfGuessesAllowed << " guesses)" << std::endl;
+        }
+    }
+    int getnumberOfGuessesAllowed() {
+        return numberOfGuessesAllowed;
+    }
+    std::vector<std::string> getResultsList() {
+        return resultsList;
+    }
+    GameLogic getgameLogic() {
+        return gameLogic;
+    }
+};
+
+    

@@ -2,6 +2,6 @@
 
 int main() {
     Controller controller;
-    controller.run();
+    controller.runGame();
     return 0;
 }
