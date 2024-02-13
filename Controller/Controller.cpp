@@ -39,7 +39,6 @@ public:
         std::cout << "Please select an option from the main menu below:\n"
                     "1: one human codemaker and one human codebreaker\n" 
                     "2: one computer-based codemaker and one human codebreaker\n" 
-                    "3: one computer-based codemaker and one computer-based codebreaker.\n"
                     "0: For Exit Program\n"  << std::endl;
     }
     void runGame() {
@@ -50,19 +49,13 @@ public:
             std::cin >> menuChoiceSelected;
             switch (menuChoiceSelected) {
                 case 1:
-                    humanVsHuman();
+                    PlayerVsPlayer();
                     showScore(gameLogic.getScoreList()[counter]);
                     counter++;
                     std::cout << std::endl;
                     break;
                 case 2:
-                    computerVsHuman();
-                    showScore(gameLogic.getScoreList()[counter]);
-                    counter++;
-                    std::cout << std::endl;
-                    break;
-                case 3:
-                    computerVsComputer();
+                    PlayerVsComputer();
                     showScore(gameLogic.getScoreList()[counter]);
                     counter++;
                     std::cout << std::endl;
@@ -79,29 +72,33 @@ public:
         } while (!gameOver);
     }
 
+    // Defining the starting sequence to be created by the codemaker
 
-    void computerVsHuman() {
-        std::vector<std::string> code = getRandomCodes();
-        std::string st = gameLogic.ComputerVsHuman(character, getGuessUsingFirstLetterOfColour(code), codeMakersColorSequence, code.size());
+    void PlayerVsComputer()
+    {
+        std::vector<std::string> computersCodeSequence = getComputersStartingSequence();
+        std::string st = gameLogic.ComputerVsHuman(character, getGuessUsingFirstLetterOfColour(computersCodeSequence), codeMakersColorSequence, computersCodeSequence.size());
         resultsList.push_back("Codemaker sets the code: " + st);
         std::cout << "Codemaker sets the code: " << st << std::endl;
     }
 
-
-
-    void computerVsComputer() {
-        std::vector<std::string> randomCodes = getRandomCodes();
-        std::string st = gameLogic.computerVsComputer(character, getGuessUsingFirstLetterOfColour(randomCodes), codeMakersColorSequence, randomCodes.size());
-        resultsList.push_back("Codemaker sets the code: " + st);
-        std::cout << "Codemaker sets the code: " << st << std::endl;
-    }
-    void humanVsHuman() {
+    void PlayerVsPlayer() {
         std::vector<std::string> code = humanDefineCodes();
         std::string st = gameLogic.humanVsHuman(getGuessUsingFirstLetterOfColour(code), codeMakersColorSequence, code.size());
         resultsList.push_back("Codemaker sets the code: " + st);
         std::cout << "Codemaker sets the code: " << st << std::endl;
     }
 
+    std::vector<std::string> getComputersStartingSequence()
+    {
+        std::vector<std::string> code;
+        int codeLength = rand() % 6 + 3;
+        for (int i = 0; i < codeLength; i++)
+        {
+            code.push_back(character[rand() % 8]);
+        }
+        return code;
+    }
 
     std::vector<std::string> getGuessUsingFirstLetterOfColour(std::vector<std::string> playerGuess) {
         std::vector<std::string> codeBreakersColorGuesses;
@@ -154,7 +151,7 @@ public:
     std::vector<std::string> getResultsList() {
         return resultsList;
     }
-    gameLogic getgameLogic() {
+    GameLogic getgameLogic() {
         return gameLogic;
     }
 };
@@ -179,11 +176,4 @@ public:
         } while (code.size() < 3 || code.size() > 8);
         return code;
     }
-    std::vector<std::string> getRandomCodes() {
-        std::vector<std::string> code;
-        int codeLength = rand() % 6 + 3;
-        for (int i = 0; i < codeLength; i++) {
-            code.push_back(character[rand() % 8]);
-        }
-        return code;
-    }
+
