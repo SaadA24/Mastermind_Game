@@ -1,10 +1,10 @@
+#include "Helpers/InputHelper.cpp"
+#include "Model/Game.cpp"
 #include <iostream>
 #include <vector>
 #include <random>
-#include "Helpers/InputHelper.cpp"
-#include "Model/Game.cpp"
 
-class GameImpl : public Game {
+class GameImplementation : public Game {
 private:
     InputHelper inputHelper;
     int numberofGuess;
