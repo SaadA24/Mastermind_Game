@@ -7,15 +7,12 @@
 #include <string>
 #include <ctime>
 
-class Controller {
+class Controller  : GameLogic {
 private:
     GameLogic gameLogic;
     InputHelper inputHelper;
 
-    std::vector<std::string> character;
     std::vector<std::string> codeMakersColorSequence;
-    std::vector<std::string> resultsList;
-    int numberOfGuessesAllowed;
 
 public:
     void displayGameMenu() {
@@ -32,7 +29,7 @@ public:
             std::cin >> menuChoiceSelected;
             switch (menuChoiceSelected) {
                 case 1:
-                    PlayerVsComputer();
+                    PlayerVsComputer(getComputerCodemakerStartingSequence(), );
                     break;
                 case 0:
                     std::exit(0);
@@ -45,12 +42,4 @@ public:
         } while (!gameOver);
     }
 
-    // Defining the starting sequence to be created by the codemaker
-
-    void PlayerVsComputer()
-    {
-        std::vector<std::string> computersCodeSequence = getComputerCodemakerStartingSequence();
-        std::string st = gameLogic.PlayerVsComputer(recordGuessUsingFirstLetterOfColour(computersCodeSequence), codeMakersColorSequence, computersCodeSequence.size());
-
-    }
-};
+}
