@@ -3,20 +3,44 @@
 #include <vector>
 #include <random>
 
-class GameLogic {
-private:
-    InputHelper inputHelper;
-    int numberOfGuessesAllowed;
-    std::vector<int> scoreList;
 
-public:
-    GameLogic(int numberOfGuessesAllowed, std::vector<int> scorelist) {
-        this -> numberOfGuessesAllowed = numberOfGuessesAllowed;
-        this -> scoreList = scoreList;
+    std::string PlayerVsComputer(std::vector<std::string>& codeMakersStartSequence, std::vector<std::string>& orig, int codemakerSequencelength) {
+
+        // set code
+        std::cout << "The Computer codemaker sets the code: ";
+        std::vector<std::string> codeMakersStartSequence = GetComputerCodemakerStartingSequence();
+
+        // Hide code from Player
+        std::string codemakersStartSequenceHidden = "";
+        for (int i = 0; i < codeMakersStartSequence.size(); i++) {
+            codemakersStartSequenceHidden += "X ";
+        }
+        std::cout << codemakersStartSequenceHidden << std::endl;
+
+        // Allow codebreaker to input a guess
+
+
+        // Generate automatic response to codebreaker 
+        std::string responseToCodebreakersGuess = generateCodebreakerResponse();
+        
+        // Play Game within number of guesses
+
+        
+        // Append scores
+
+        
+
+
+
+
+
+
+
+
     }
 
-    //1st
-    std::vector<std::string> getComputerCodemakerStartingSequence()
+    // 1st - get computer code maker start code
+    std::vector<std::string> GetComputerCodemakerStartingSequence()
     {
         std::vector<std::string> computerCodemakerStartingSequence;
         int sequenceLength = rand() % 6 + 3;
@@ -26,34 +50,6 @@ public:
         }
         return computerCodemakerStartingSequence;
     }
-
-    std::string hideCodemakerSequenceFromPlayer()
-    {
-        std::string codemakersStartSequenceHidden = "";
-        for (auto i = 0; i < getComputerCodemakerStartingSequence()) {
-            codemakersStartSequenceHidden += "X ";
-        }
-        codemakersStartSequenceHidden += "\n";
-        std::cout << std::endl;
-    }
-
-
-
-    std::string PlayerVsComputer(std::vector<std::string>& codeMakersStartSequence, std::vector<std::string>& orig, int codemakerSequencelength) {
-
-        std::cout << "The Computer codemaker sets the code: ";
-        std::vector<std::string> gameStart = getComputerCodemakerStartingSequence();
-
-        // Hide color sequence from Player
-
-        std::string codemakersStartSequenceHidden = "";
-        for (int i = 0; i < codeMakersStartSequence.size(); i++) {
-            codemakersStartSequenceHidden += "X ";
-        }
-        codemakersStartSequenceHidden += "\n";
-        std::cout << std::endl;
-
-        // Allow codebreaker to guess the sequence one color at a time
 
         for (int i = 0; i < numberOfGuessesAllowed; i++) {
             codemakersStartSequenceHidden += "\nGuess " + std::to_string(i + 1) + ": ";
@@ -86,14 +82,11 @@ public:
             std::cout << "\nCodemaker score = " << codeBreakersScore << " (" << (i + 1) << " guesses)";
             
             result += "\nCodebreaker score = " + std::to_string(codeBreakersScore) + " (" + std::to_string(i + 1) + " guesses)";
-        }
+        
 
         scoreList.push_back(codeBreakersScore);
 
         return result;
-    }
-
-
 
 
  //
@@ -116,10 +109,6 @@ public:
     }
 
 };
-
-
-
-
 
         std::vector<std::string> recordCodebreakerGuessSequence(std::vector<std::string> codebreakerGuess) {
         std::vector<std::string> codeBreakerSequenceGuess;
@@ -176,25 +165,4 @@ public:
             }
         } while (code.size() < 3 || code.size() > 8);
         return code;
-    }
-
-
-    void showScore(int score) {
-        std::cout << "\nCodemaker score = " << score << " (" << numberOfGuessesAllowed << " guesses)" << std::endl;
-    }
-    void showResult(std::vector<int> scoreList) {
-        std::cout << std::endl;
-        for (int i = 0; i < scoreList.size(); i++) {
-            std::cout << "Games: " << (i + 1) << "  Codemaker score = " << scoreList[i] << " (" << numberOfGuessesAllowed << " guesses)" << std::endl;
-        }
-    }
-    int getnumberOfGuessesAllowed() {
-        return numberOfGuessesAllowed;
-    }
-    std::vector<std::string> getResultsList() {
-        return resultsList;
-    }
-    GameLogic getgameLogic() {
-        return gameLogic;
-    }
-};
+    };
