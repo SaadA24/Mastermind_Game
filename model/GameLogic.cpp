@@ -17,7 +17,7 @@ public:
         scoreList = std::vector<int>();
     }
 
-    std::string ComputerVsHuman(std::vector<std::string>& codeMakersStartSequence, std::vector<std::string>& orig, int length) {
+    std::string PlayerVsComputer(std::vector<std::string>& codeMakersStartSequence, std::vector<std::string>& orig, int codemakerSequencelength) {
         codeBreakersScore = 0;
         std::cout << "The Computer codemaker sets the code: ";
 
@@ -34,99 +34,41 @@ public:
 
         for (int i = 0; i < numberOfGuessesAllowed; i++) {
             codemakersStartSequenceHidden += "\nGuess " + std::to_string(i + 1) + ": ";
-            std::vector<std::string> codeBreakersGuesses;
+            std::vector<std::string> codeBreakersGuess;
 
             do {
-                std::string input = inputHelper.readString("Player1: Please enter a guess using only the first letter of one of the following colours:  ");
-                std::istringstream iss(input);
+                std::string codeBreakerRequest = "Player 1: Codebreaker! Please enter a guess using only the first letter of one of the following colours:";
+                std::istringstream iss(codeBreakerRequest);
                 std::string token;
                 while (std::getline(iss, token, ' ')) {
-                    codeBreakersGuesses.push_back(token);
+                    codeBreakersGuess.push_back(token);
                 }
-            } while (codeBreakersGuesses.size() < 3 || codeBreakersGuesses.size() > 8);
+            } while (codeBreakersGuess.size() < 3 || codeBreakersGuess.size() > 8);
 
-            for (int k = 0; k < codeBreakersGuesses.size(); k++) {
-                std::string color = getColor(orig, codeBreakersGuesses[k][0]);
+            for (int k = 0; k < codeBreakersGuess.size(); k++) {
+                std::string color = getColor(orig, codeBreakersGuess[k][0]);
                 if (!color.empty()) {
                     result += color + " ";
                 } else {
-                    result += codeBreakersGuesses[k] + " ";
+                    result += codeBreakersGuess[k] + " ";
                 }
             }
 
             if (i == numberOfGuessesAllowed - 1) {
-                codeBreakersScore += 2;
-            } 
-            result += "\nResponse: " + playGuess(codeMakersStartSequence, codeBreakersGuesses, length);
+                codeBreakersScore += 1;
+            }
+
+            result += "\nResponse: " + generateCodebreakerResponse(codeMakersStartSequence, codeBreakersGuess, codemakerSequencelength);
+
             std::cout << "\nCodemaker score = " << codeBreakersScore << " (" << (i + 1) << " guesses)";
-            result += "\nCodemaker score = " + std::to_string(codeBreakersScore) + " (" + std::to_string(i + 1) + " guesses)";
+            
+            result += "\nCodebreaker score = " + std::to_string(codeBreakersScore) + " (" + std::to_string(i + 1) + " guesses)";
         }
 
         scoreList.push_back(codeBreakersScore);
 
         return result;
     }
-
-    std::string humanVsHuman(std::vector<std::string> &codeMakersStartSequence, std::vector<std::string> &orig, int length) override
-    {
-        std::cout << "Player 1: Codemaker! Please set the code: ";
-        score = 0;
-        std::string result = "";
-        for (int i = 0; i < codeMakersStartSequence.size(); i++)
-        {
-            result += codeMakersStartSequence[i] + " ";
-            std::cout << codeMakersStartSequence[i] + " ";
-        }
-        result += "\n";
-        std::cout << std::endl;
-        for (int i = 0; i < numberOfGuessesAllowed; i++)
-        {
-            result += "\nGues " + std::to_string(i + 1) + ": ";
-            std::vector<std::string> Gues;
-
-            do {
-                std::string input = inputHelper.readString("Enter Gues with name or format like 'y m l' ");
-                std::istringstream iss(input);
-                std::string token;
-                while (std::getline(iss, token, ' ')) {
-                    Gues.push_back(token);
-                }
-
-                if (Gues.size() < 3 || Gues.size() > 8) {
-                    std::cout << "Gues not able to specify the number (between 3-8)  set guess again";
-                    std::cout << "\nGues " << (i + 1) << ": ";
-                }
-            } while (Gues.size() < 3 || Gues.size() > 8);
-
-            for (int k = 0; k < Gues.size(); k++) {
-                std::string color = getColor(orig, Gues[k][0]);
-                if (!color.empty()) {
-                    result += color + " ";
-                } else {
-                    result += Gues[k] + " ";
-                }
-            }
-
-            if (i == numberOfGuessesAllowed - 1) {
-                score += 2;
-            } else {
-                score++;
-            }
-
-            result += "\nResponse: " + playGuess(codeMakersStartSequence, Gues, length);
-            std::cout << "\nCodemaker score = " << score << " (" << (i + 1) << " guesses)";
-            result += "\nCodemaker score = " + std::to_string(score) + " (" + std::to_string(i + 1) + " guesses)";
-        }
-
-        scoreList.push_back(score);
-
-        return result;
-    }
-
-    std::vector<int> getScoreList() {
-        return scoreList;
-    }
-
 
     std::string getColor(std::vector<std::string>& cl, char ch) {
         for (int i = 0; i < cl.size(); i++) {
@@ -137,22 +79,19 @@ public:
         return "";
     }
 
-    std::string playGuess(std::vector<std::string>& codeMakersStartSequence, std::vector<std::string>& codeBreakersGuess, int length) {
+    std::string generateCodebreakerResponse(std::vector<std::string>& codeMakersStartSequence, std::vector<std::string>& codeBreakersTurn, int sequenceLength) {
+        
         std::string guessString = "";
 
-        if (codeBreakersGuess.size() <= length) {
-            length = codeBreakersGuess.size();
-        }
-
-        for (int j = 0; j < codeBreakersGuess.size(); j++) {
-            if (j < length) {
-                if (std::tolower(codeBreakersGuess[j][0]) == std::tolower(codeMakersStartSequence[j][0])) {
+        for (int i = 0; i < codeBreakersTurn.size(); i++) {
+            if (i < sequenceLength) {
+                if (std::tolower(codeBreakersTurn[i][0]) == std::tolower(codeMakersStartSequence[i][0])) {
                     guessString += "Black ";
-                } else if (!getColor(codeMakersStartSequence, std::tolower(codeBreakersGuess[j][0])).empty()) {
+                } else if (!getColor(codeMakersStartSequence, std::tolower(codeBreakersTurn[j][0])).empty()) {
                     guessString += "White ";
                 }
             } else {
-                if (!getColor(codeMakersStartSequence, std::tolower(codeBreakersGuess[j][0])).empty()) {
+                if (!getColor(codeMakersStartSequence, std::tolower(codeBreakersTurn[j][0])).empty()) {
                     guessString += "White ";
                 }
             }

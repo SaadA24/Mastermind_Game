@@ -16,7 +16,6 @@ private:
     std::vector<std::string> codeMakersColorSequence;
     std::vector<std::string> resultsList;
     int numberOfGuessesAllowed;
-    int counter;
 
 public:
     Controller() {
@@ -41,7 +40,7 @@ public:
                     "2: one computer-based codemaker and one human codebreaker\n" 
                     "0: For Exit Program\n"  << std::endl;
     }
-    
+
     void runGame() {
         bool gameOver = false;
         int menuChoiceSelected = 0;
@@ -51,19 +50,12 @@ public:
             switch (menuChoiceSelected) {
                 case 1:
                     PlayerVsPlayer();
-                    showScore(gameLogic.getScoreList()[counter]);
-                    counter++;
-                    std::cout << std::endl;
                     break;
                 case 2:
                     PlayerVsComputer();
-                    showScore(gameLogic.getScoreList()[counter]);
-                    counter++;
-                    std::cout << std::endl;
                     break;
                 case 0:
                     std::exit(0);
-                    std::cout << std::endl;
                     break;
                 default:
                     std::cout << TextColours::TEXT_RED;
