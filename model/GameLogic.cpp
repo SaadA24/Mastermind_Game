@@ -1,10 +1,9 @@
 #include "Helpers/InputHelper.cpp"
-#include "Model/Game.cpp"
 #include <iostream>
 #include <vector>
 #include <random>
 
-class GameLogic : public Game {
+class GameLogic {
 private:
     InputHelper inputHelper;
     int numberOfGuessesAllowed;
@@ -70,33 +69,24 @@ public:
         return result;
     }
 
-    std::string getColor(std::vector<std::string>& cl, char ch) {
-        for (int i = 0; i < cl.size(); i++) {
-            if (std::tolower(cl[i][0]) == std::tolower(ch)) {
-                return cl[i];
+
+ //
+    std::string generateCodebreakerResponse(std::vector<std::string>& codeMakerSequence, char colorLetterInput) {
+        std::string responseToCodebreakersGuess = "";
+        for (int i = 0; i < codeMakerSequence.size(); i++) {
+            if (colorLetterInput == codeMakerSequence[i][0]) {
+                responseToCodebreakersGuess += "Black";
+            }
+            if (codeMakerSequence[i] == "r")
+            {
+                responseToCodebreakersGuess += "White";
+            }
+            else
+            {
+                responseToCodebreakersGuess += "x";
             }
         }
-        return "";
+        return responseToCodebreakersGuess;
     }
 
-    std::string generateCodebreakerResponse(std::vector<std::string>& codeMakersStartSequence, std::vector<std::string>& codeBreakersTurn, int sequenceLength) {
-        
-        std::string guessString = "";
-
-        for (int i = 0; i < codeBreakersTurn.size(); i++) {
-            if (i < sequenceLength) {
-                if (std::tolower(codeBreakersTurn[i][0]) == std::tolower(codeMakersStartSequence[i][0])) {
-                    guessString += "Black ";
-                } else if (!getColor(codeMakersStartSequence, std::tolower(codeBreakersTurn[j][0])).empty()) {
-                    guessString += "White ";
-                }
-            } else {
-                if (!getColor(codeMakersStartSequence, std::tolower(codeBreakersTurn[j][0])).empty()) {
-                    guessString += "White ";
-                }
-            }
-        }
-
-        return guessString;
-    }
 };
