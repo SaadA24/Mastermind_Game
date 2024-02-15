@@ -1,7 +1,5 @@
 * linguist-vendored
+*.cpp linguist-detectable=true
 *.Cmake linguist-detectable=false
 *.Makefile linguist-detectable=false
 *.TypeScript linguist-detectable=false
-
-
-
