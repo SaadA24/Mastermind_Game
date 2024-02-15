@@ -1,0 +1,5 @@
+if(EXISTS "D:/Projects/vscode/backups/MasterMind_Game/build/getComputerStartSequence[1]_tests.cmake")
+  include("D:/Projects/vscode/backups/MasterMind_Game/build/getComputerStartSequence[1]_tests.cmake")
+else()
+  add_test(getComputerStartSequence_NOT_BUILT getComputerStartSequence_NOT_BUILT)
+endif()

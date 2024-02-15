@@ -1,0 +1,10 @@
+^D:\PROJECTS\VSCODE\BACKUPS\MASTERMIND_GAME\GOOGLETEST\GOOGLEMOCK\CMAKELISTS.TXT
+setlocal
+D:\Programs\cmake\cmake-3.28.0-rc5-windows-x86_64\bin\cmake.exe -SD:/Projects/vscode/backups/MasterMind_Game -BD:/Projects/vscode/backups/MasterMind_Game/build --check-stamp-file D:/Projects/vscode/backups/MasterMind_Game/build/googletest/googlemock/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

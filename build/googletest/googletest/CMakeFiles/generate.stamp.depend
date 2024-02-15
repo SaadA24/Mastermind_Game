@@ -1,0 +1,16 @@
+# CMake generation dependency list for this directory.
+D:/Programs/cmake/cmake-3.28.0-rc5-windows-x86_64/share/cmake-3.28/Modules/BasicConfigVersion-AnyNewerVersion.cmake.in
+D:/Programs/cmake/cmake-3.28.0-rc5-windows-x86_64/share/cmake-3.28/Modules/CMakePackageConfigHelpers.cmake
+D:/Programs/cmake/cmake-3.28.0-rc5-windows-x86_64/share/cmake-3.28/Modules/CheckCSourceCompiles.cmake
+D:/Programs/cmake/cmake-3.28.0-rc5-windows-x86_64/share/cmake-3.28/Modules/CheckIncludeFile.cmake
+D:/Programs/cmake/cmake-3.28.0-rc5-windows-x86_64/share/cmake-3.28/Modules/CheckLibraryExists.cmake
+D:/Programs/cmake/cmake-3.28.0-rc5-windows-x86_64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake
+D:/Programs/cmake/cmake-3.28.0-rc5-windows-x86_64/share/cmake-3.28/Modules/FindPackageMessage.cmake
+D:/Programs/cmake/cmake-3.28.0-rc5-windows-x86_64/share/cmake-3.28/Modules/FindThreads.cmake
+D:/Programs/cmake/cmake-3.28.0-rc5-windows-x86_64/share/cmake-3.28/Modules/Internal/CheckSourceCompiles.cmake
+D:/Programs/cmake/cmake-3.28.0-rc5-windows-x86_64/share/cmake-3.28/Modules/WriteBasicConfigVersionFile.cmake
+D:/Projects/vscode/backups/MasterMind_Game/googletest/googletest/CMakeLists.txt
+D:/Projects/vscode/backups/MasterMind_Game/googletest/googletest/cmake/Config.cmake.in
+D:/Projects/vscode/backups/MasterMind_Game/googletest/googletest/cmake/gtest.pc.in
+D:/Projects/vscode/backups/MasterMind_Game/googletest/googletest/cmake/gtest_main.pc.in
+D:/Projects/vscode/backups/MasterMind_Game/googletest/googletest/cmake/internal_utils.cmake
