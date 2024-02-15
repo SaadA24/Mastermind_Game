@@ -1,5 +1,5 @@
+# Ignore all files except C++ files
 * linguist-vendored
-*.cpp linguist-detectable=true
-*.Cmake linguist-detectable=false
-*.Makefile linguist-detectable=false
-*.TypeScript linguist-detectable=false
+*.cpp linguist-language=cpp
+*.h linguist-language=cpp
+*.hpp linguist-language=cpp
