@@ -3,11 +3,12 @@
 #include <vector>
 #include <string>
 #include <random>
+#include <set>
 
 
     std::string PlayerVsComputer(std::vector<std::string>& codeMakersStartSequence, std::vector<std::string>& orig, int codemakerSequencelength) {
 
-        int numberOfGuessesAllowed = 6;
+        int numberOfGuessesAllowed = 10;
         int computerCodemakerScore = 0;
         int computerCodebreakerScore = 0;
 
@@ -97,9 +98,21 @@
 
         return result;
 
-    std::string GetComputerCodemakerStartingSequence()
+
+    std::set<std::string> GetComputerCodemakerStartingSequence()
     {
-        std::string computerCodemakerStartingSequence;
+        std::set colorPegsToPlaceOnBoard {"Red", "Green", "Blue", "Yellow", "Purple", "Maroon", "Navy", "Indigo"};
+
+        std::random_device rd;
+        std::mt19937 randomGenerator(rd);
+        std::shuffle(colorPegsToPlaceOnBoard.begin(), colorPegsToPlaceOnBoard.end(), randomGenerator);
+
+        std::set<std::string> computerCodemakerStartingSequenceInWords {colorPegsToPlaceOnBoard.begin(), colorPegsToPlaceOnBoard.end()};
+        
+        return computerCodemakerStartingSequenceInWords;
+        
+
+
         int sequenceLength = rand() % 6 + 3;
         for (int i = 0; i < sequenceLength; i++)
         {
@@ -154,8 +167,8 @@
                 case 'n':
                     codeBreakerSequenceGuess.push_back("Navy");
                     break;
-                case 'w':
-                    codeBreakerSequenceGuess.push_back("White");
+                case 'i':
+                    codeBreakerSequenceGuess.push_back("Indigo");
                     break;
                 default:
                     codeBreakerSequenceGuess.push_back("Nan");
